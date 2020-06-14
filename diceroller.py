@@ -31,7 +31,7 @@ def diceRoller():
 			die = [("", 1, 20)]
 		user_rolls = roll(int(die[0][0]), int(die[0][1]))
 		reroll = re.findall("r([ro])(\d+)", text)
-		if reroll != [] and int(reroll[0][1]) <= int(die[0][1]):
+		if reroll != [] and int(reroll[0][1]) <= int(die[0][1]) and int(die[0][1]) != 1:
 			if reroll[0][0] == "o":
 				# reroll the given number once for each time it shows up
 				instances_of_number = [i for i, val in enumerate(user_rolls["list"]) if val == int(reroll[0][1])]
