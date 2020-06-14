@@ -6,6 +6,6 @@ Flask-based dice roller
 
 - [x] Make a basic dice roller
 - [ ] Add rerolling once functionality
-- [ ] Add multiple reroll functionality
-- [ ] Add keep highest roll(s)
-- [ ] Add keep lowest roll(s)
+- [x] Add multiple reroll functionality {diceroller.py}
+- [x] Add keep highest roll(s) {diceroller.py}
+- [x] Add keep lowest roll(s) {diceroller.py}
