@@ -33,7 +33,7 @@ def diceRoller():
 		reroll = re.findall("r([ro])(\d+)", text)
 		if reroll != [] and int(reroll[0][1]) <= int(die[0][1]) and int(die[0][1]) != 1:
 			if reroll[0][0] == "o":
-				# reroll the given number once for each time it shows up
+				# Reroll the given number once for each time it shows up
 				instances_of_number = [i for i, val in enumerate(user_rolls["list"]) if val == int(reroll[0][1])]
 				instances_offset = 0
 				for each_instance in instances_of_number:
@@ -42,8 +42,15 @@ def diceRoller():
 					user_rolls["list"].insert(each_instance+instances_offset, roll(1, int(die[0][1]))["sum"])
 				user_rolls["sum"] = sum([i if type(i) == int else 0 for i in user_rolls["list"]])
 			else:				
-				# reroll the given number every time it shows up
-				pass
+				# Reroll the given number every time it shows up
+				while int(reroll[0][1]) in user_rolls["list"]:
+					instances_of_number = [i for i, val in enumerate(user_rolls["list"]) if val == int(reroll[0][1])]
+					instances_offset = 0
+					for each_instance in instances_of_number:
+						user_rolls["list"][each_instance+instances_offset] = reroll[0][1] + " (rerolled)"
+						instances_offset +=1
+						user_rolls["list"].insert(each_instance+instances_offset, roll(1, int(die[0][1]))["sum"])
+				user_rolls["sum"] = sum([i if type(i) == int else 0 for i in user_rolls["list"]])
 		# Keeping the highest or lowest rolls
 		keep = re.findall("k([hl])(\d+)", text)
 		if keep != [] and int(keep[0][1]) < int(die[0][1]):
@@ -54,8 +61,6 @@ def diceRoller():
 			else:
 				keep_list = keep_list[:int(keep[0][1])]
 			user_rolls["sum"] = str(sum(keep_list)) + " " + str(keep_list) + " ||"
-		# sum([i if type(i) == int else 0 for i in a])
-
 	templateData = {"result": user_rolls["sum"], "rolls": user_rolls["list"]}
 	return render_template_string(main_page2, **templateData)
 
