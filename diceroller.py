@@ -10,13 +10,15 @@ main_page = """
 			<label for="diceString">Dice:</label>
 			<input type="text" id="diceString" name="diceString" placeholder="1d20">
 			<input type="submit" value="Submit"><br><br>
+			<label>Query:</label><br><br>
             <label>Result:</label>
 		</form>
 	</body>
 </html>
 """
 
-main_page2 = re.sub("(Result:)", "\\1 {{ result }} {{ rolls }}", main_page)
+main_page2 = re.sub("(Query:)", "\\1 {{ query }}", main_page)
+main_page2 = re.sub("(Result:)", "\\1 {{ result }} {{ rolls }}", main_page2)
 
 @app.route("/", methods=["GET"])
 def index():
@@ -61,7 +63,7 @@ def diceRoller():
 			else:
 				keep_list = keep_list[:int(keep[0][1])]
 			user_rolls["sum"] = str(sum(keep_list)) + " " + str(keep_list) + " ||"
-	templateData = {"result": user_rolls["sum"], "rolls": user_rolls["list"]}
+	templateData = {"query": text, "result": user_rolls["sum"], "rolls": user_rolls["list"]}
 	return render_template_string(main_page2, **templateData)
 
 def roll(num, sides):
